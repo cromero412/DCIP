@@ -184,7 +184,6 @@ rows = [
     ("Texto azul sobre fondo amarillo", "Celda de entrada. Es lo único que rellena el analista."),
     ("Texto negro", "Fórmula. No editar."),
     ("Texto verde", "Enlace a otra hoja. No editar."),
-    ("Fondo gris y texto 'EJEMPLO'", "Fila de ejemplo con valores ficticios para mostrar el formato. Borrar antes de usar el expediente."),
     ("", ""),
     ("ORDEN DE USO", "1) 01_CONFIG → 2) 12_FUENTES → 3) 05_EVIDENCIA → 4) 07_FICHA (snapshot y ratios) → 5) 03_SCORING → 6) 04_RESULTADO → 7) 08–11 → 8) 06_AUDITORIA → 9) 13_CAMBIOS y 14_HISTORICO → 10) estándar visual (20–24)."),
     ("Hojas", "00 README · 01 CONFIG · 02 INDICADORES · 03 SCORING · 04 RESULTADO · 05 EVIDENCIA · 06 AUDITORIA · 07 FICHA · 08 RIESGOS · 09 OPORTUNIDADES · 10 PROSPECTIVA · 11 ALERTA_TEMPRANA · 12 FUENTES · 13 CAMBIOS · 14 HISTORICO · 15 RANKING · 16 LISTAS · 17 JURISDICCIONES · 20–24 estándar visual."),
@@ -194,7 +193,6 @@ for i, (a, b) in enumerate(rows, 4):
     put(ws, i, 2, b, border=False)
 put(ws, 17, 1, "Texto azul sobre fondo amarillo", font=F_INPUT, fill=FILL_INPUT, border=False)
 put(ws, 19, 1, "Texto verde", font=F_LINK, border=False)
-put(ws, 20, 1, "Fondo gris y texto 'EJEMPLO'", fill=FILL_EX, border=False)
 
 # =====================================================================================
 # 01_CONFIG
@@ -421,15 +419,6 @@ dv_list(E, R_TIPO, f"K2:K{NE + 1}")
 dv_list(E, R_SN, f"Q2:Q{NE + 1}")
 E.conditional_formatting.add(f"G2:G{NE + 1}", FormulaRule(formula=['G2="EXCLUIR"'], fill=PatternFill("solid", fgColor="FFCDD2"), font=Font(name=FONT, size=10, bold=True, color="B71C1C")))
 E.conditional_formatting.add(f"I2:I{NE + 1}", FormulaRule(formula=['I2="FUENTE NO REGISTRADA"'], fill=PatternFill("solid", fgColor="FFCDD2")))
-# fila de ejemplo
-ex = ["E001", "F01", None, None, dt.date(2026, 3, 31), None, None, "F001", None, "S", "HECHO",
-      "EJEMPLO — Resultado de explotación 2025: 184,2 M (moneda local). Cifra de negocio: 2.310,5 M.",
-      "Cuentas anuales consolidadas 2025, p. 47, cuenta de resultados", "Grupo consolidado", "EUR", "es", "N", None, "", "", "EJEMPLO. Borrar antes de usar."]
-for c, v in enumerate(ex, 1):
-    if v is not None:
-        E.cell(row=2, column=c, value=v)
-    E.cell(row=2, column=c).fill = FILL_EX
-    E.cell(row=2, column=c).font = Font(name=FONT, size=10, italic=True, color="616161")
 E.auto_filter.ref = f"A1:U{NE + 1}"
 
 # =====================================================================================
@@ -608,12 +597,6 @@ for r in range(2, 302):
         put(FU, r, c, None, font=F_INPUT, fill=FILL_INPUT)
     FU[f"F{r}"].number_format = "DD/MM/YYYY"
 dv_list(FU, R_NIV, "B2:B301")
-exf = ["F001", "N1", "España", "[Empresa ejemplo] / Registro Mercantil", "Cuentas anuales consolidadas e informe de auditoría 2025", dt.date(2026, 3, 31),
-       "Registro Mercantil, depósito de cuentas 2025", "es", "Grupo consolidado", "IFRS", "EUR", "Snapshot financiero; F01–F10", "EJEMPLO. Borrar antes de usar."]
-for c, v in enumerate(exf, 1):
-    FU.cell(row=2, column=c, value=v)
-    FU.cell(row=2, column=c).fill = FILL_EX
-    FU.cell(row=2, column=c).font = Font(name=FONT, size=10, italic=True, color="616161")
 FU.auto_filter.ref = "A1:M301"
 
 # =====================================================================================
@@ -629,12 +612,6 @@ for r in range(2, 202):
     CB[f"C{r}"].number_format = "DD/MM/YYYY"
 dv_list(CB, R_TC, "H2:H201")
 dv_list(CB, R_CAL, "I2:I201")
-exc = ["v2", dt.date(2026, 10, 1), dt.date(2026, 9, 30), "F05", 50, 75, None, "REAL", "MEJORA", "E014", "EJEMPLO. Deuda neta/EBITDA pasa de 2,4x a 1,6x tras amortización anticipada. Borrar antes de usar."]
-for c, v in enumerate(exc, 1):
-    if v is not None:
-        CB.cell(row=2, column=c, value=v)
-    CB.cell(row=2, column=c).fill = FILL_EX
-    CB.cell(row=2, column=c).font = Font(name=FONT, size=10, italic=True, color="616161")
 CB["H1"].comment = Comment("REAL: cambia la situación de la empresa. METODOLÓGICO: cambia la regla, la rúbrica o el perímetro. Nunca mezclar.", "DCIP")
 
 # =====================================================================================
@@ -656,24 +633,6 @@ dv_list(H, IDS, f"E2:E{NH + 1}")
 dv_list(H, R_CONF, f"K2:K{NH + 1}")
 dv_list(H, R_TIPO, f"L2:L{NH + 1}")
 dv_num(H, f"I2:I{NH + 1}")
-# Ejemplo: dos empresas ficticias con puntuaciones por indicador (determinista, no aleatorio)
-import itertools
-ex_rows = []
-for ei, (emp, pais, base) in enumerate((("EJEMPLO_A", "País A", 70), ("EJEMPLO_B", "País B", 45))):
-    for k, ind in enumerate(M.INDICADORES):
-        score = base + ((k * 7 + ei * 3) % 5) * 5 - 10  # valores plausibles entre base-10 y base+10
-        score = max(0, min(100, score))
-        if emp == "EJEMPLO_B" and ind["id"] in ("I07", "D08", "P04"):
-            score = None  # muestra el efecto de la cobertura
-        ex_rows.append((emp, pais, dt.date(2026, 6, 30), "v1", ind["id"], score, "ALTA" if ei == 0 else "MEDIA", "HECHO"))
-for i, (emp, pais, fc, ver, iid, sc, conf, tipo) in enumerate(ex_rows, 2):
-    vals = {1: emp, 2: pais, 3: fc, 4: ver, 5: iid, 9: sc, 11: conf, 12: tipo, 13: "EJEMPLO. Borrar antes de usar."}
-    for c, v in vals.items():
-        if v is not None:
-            H.cell(row=i, column=c, value=v)
-    for c in (1, 2, 3, 4, 5, 9, 11, 12, 13):
-        H.cell(row=i, column=c).fill = FILL_EX
-        H.cell(row=i, column=c).font = Font(name=FONT, size=10, italic=True, color="616161")
 H.auto_filter.ref = f"A1:M{NH + 1}"
 
 RK = sheet("15_RANKING", [22, 14, 10, 10, 10, 10, 11, 10, 10, 10, 10, 12, 20, 8], freeze="A4")
@@ -702,11 +661,7 @@ for r in range(4, 44):
     put(RK, r, 14, f'=IF(OR(K{r}="",K{r}="NC"),"",RANK(K{r},$K$4:$K$43))', align=CENTER)
 for lo, hi, nom, col, fillc in M.BANDAS:
     RK.conditional_formatting.add("G4:K43", CellIsRule(operator="between", formula=[str(lo), str(hi)], fill=PatternFill("solid", fgColor=fillc), font=Font(name=FONT, size=10, bold=True, color=col)))
-for i, (emp, fc) in enumerate((("EJEMPLO_A", dt.date(2026, 6, 30)), ("EJEMPLO_B", dt.date(2026, 6, 30))), 4):
-    RK.cell(row=i, column=1, value=emp).fill = FILL_EX
-    RK.cell(row=i, column=2, value=fc).fill = FILL_EX
-    RK.cell(row=i, column=1).font = Font(name=FONT, size=10, italic=True, color="616161")
-put(RK, 45, 1, "Nota: las filas EJEMPLO_A y EJEMPLO_B son ficticias y existen para mostrar las fórmulas. Borrarlas junto con sus filas de 14_HISTORICO antes de usar.", font=F_NOTE, border=False)
+put(RK, 45, 1, "Nota: cada empresa de esta hoja debe tener sus puntuaciones por indicador en 14_HISTORICO con la misma EMPRESA y FECHA_CORTE.", font=F_NOTE, border=False)
 RK.merge_cells("A45:N45")
 
 # =====================================================================================

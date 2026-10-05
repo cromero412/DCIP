@@ -33,10 +33,6 @@ Para cambiar un indicador, un peso, una rúbrica o una tabla: editar `src/dcip_m
 
 **Arquitectura.** Fórmulas reales en scoring, resultado, ficha (ratios), auditoría, riesgos (severidad), histórico y ranking. Validaciones de datos en todas las columnas con lista. Formato condicional con bandas. Trazabilidad scoring → evidencia → fuente. Hoja de cambios entre versiones. Histórico en formato largo que permite comparar y ordenar empresas. Controles de auditoría con marca de crítico y método de comprobación. Plantilla visual con cobertura, mínimo y confianza en el módulo de scoring, y escala de color de bandas separada de los colores de dimensión.
 
-## Filas de ejemplo
-
-Las hojas `05_EVIDENCIA`, `12_FUENTES`, `13_CAMBIOS`, `14_HISTORICO` y `15_RANKING` contienen filas marcadas EJEMPLO con valores ficticios (empresas EJEMPLO_A y EJEMPLO_B) para mostrar el formato y el funcionamiento del ranking. Borrarlas antes de usar el expediente.
-
 ## Verificación realizada
 
-Los dos libros se recalcularon con LibreOffice sin errores de fórmula (11.111 fórmulas en la arquitectura, 28 en la matriz). Se probó un expediente ficticio: dimensión completa, dimensión con cobertura del 68 % (con reservas y confianza limitada a MEDIA), dimensión con cobertura del 36 % (no concluyente, DCIP global no concluyente), control de confianza que excede la máxima, ratios del snapshot y ranking de dos empresas. Todos los resultados coincidieron con la regla escrita.
+Los dos libros se recalcularon con LibreOffice sin errores de fórmula (11.111 fórmulas en la arquitectura, 28 en la matriz). Se probó un expediente ficticio: dimensión completa, dimensión con cobertura del 68 % (con reservas y confianza limitada a MEDIA), dimensión con cobertura del 36 % (no concluyente, DCIP global no concluyente), control de confianza que excede la máxima, ratios del snapshot y ranking de dos empresas. Todos los resultados coincidieron con la regla escrita. El expediente entregado no contiene datos: todas las celdas de entrada están vacías.
