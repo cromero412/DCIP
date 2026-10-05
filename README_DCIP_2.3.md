@@ -11,7 +11,9 @@ Versión 05/10/2026. Sustituye a DCIP 2.2 (matriz v2.01, arquitectura v2.4). Per
 | `03_DCIP_2.3_Diccionario_de_indicadores.pdf` | Magnitudes con equivalencias internacionales y ficha de cada indicador (definición, métrica, polaridad, horizonte, fuente, rúbrica, exclusiones) | 03 Diccionario |
 | `04_DCIP_2.3_Jerarquia_de_fuentes_y_evidencia.pdf` | Niveles N1–N6, confianza derivada, antigüedad, desempate, etiquetado, equivalencias por jurisdicción | 04 Jerarquía |
 | `DCIP_2.3_Arquitectura_Maestra_v3.0.xlsx` | Expediente operativo: configuración, indicadores, scoring con fórmulas, resultado, evidencia, auditoría, ficha con ratios, riesgos, oportunidades, prospectiva, alertas, fuentes, cambios, histórico, ranking, listas, jurisdicciones y estándar visual | Arquitectura v2.4 |
-| `src/dcip_model.py` | Modelo de datos único del que se generan los cinco archivos | — |
+| `DCIP_2.3_Prompt_operativo.md` | Instrucciones completas para ejecutar el análisis en cualquier asistente de IA: fases obligatorias, fichas de los 41 indicadores, fuentes por jurisdicción y formato de respuesta fijo | — |
+| `src/importar_respuesta.py` | Vuelca la respuesta de la IA (formato de la sección 7 del prompt) en una copia de la arquitectura maestra: `python3 importar_respuesta.py respuesta.md DCIP_2.3_Arquitectura_Maestra_v3.0.xlsx expediente.xlsx` | — |
+| `src/dcip_model.py` | Modelo de datos único del que se generan los cinco archivos y el prompt | — |
 | `src/build_*.py` | Generadores (Excel con openpyxl; PDF desde HTML con Chromium) | — |
 | `html/` | Fuente editable de los tres PDF | — |
 
